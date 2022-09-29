@@ -1,6 +1,5 @@
 package team.domain;
 
-import team.domain.Repaired;
 import team.domain.AsCanceled;
 import team.ServiceApplication;
 import javax.persistence.*;
@@ -39,20 +38,6 @@ public class Service  {
     @PostPersist
     public void onPostPersist(){
 
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-
-        team.external.Pay pay = new team.external.Pay();
-        // mappings goes here
-        ServiceApplication.applicationContext.getBean(team.external.PayService.class)
-            .pay(pay);
-
-
-        Repaired repaired = new Repaired(this);
-        repaired.publishAfterCommit();
-
-
 
         AsCanceled asCanceled = new AsCanceled(this);
         asCanceled.publishAfterCommit();
@@ -71,6 +56,19 @@ public class Service  {
 
 
 
+    public void productRepair(){
+        Repaired repaired = new Repaired(this);
+        repaired.publishAfterCommit();
+
+        //Following code causes dependency to external APIs
+        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        team.external.Pay pay = new team.external.Pay();
+        // mappings goes here
+        ServiceApplication.applicationContext.getBean(team.external.PayService.class)
+            .pay(pay);
+
+    }
     public void accept(){
 
         setStatus("ACCEPTED");

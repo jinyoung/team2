@@ -11,6 +11,7 @@ public class ServiceHateoasProcessor implements RepresentationModelProcessor<Ent
 
     @Override
     public EntityModel<Service> process(EntityModel<Service> model) {
+        model.add(Link.of(model.getRequiredLink("self").getHref() + "/product-repair").withRel("product-repair"));
         model.add(Link.of(model.getRequiredLink("self").getHref() + "/accept").withRel("accept"));
 
         
