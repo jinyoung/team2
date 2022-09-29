@@ -72,6 +72,9 @@ public class Service  {
 
 
     public void accept(){
+
+        setStatus("ACCEPTED");
+
         AsAccepted asAccepted = new AsAccepted(this);
         asAccepted.publishAfterCommit();
 
@@ -79,11 +82,13 @@ public class Service  {
 
     public static void loadToServiceList(ServiceRequested serviceRequested){
 
-        /** Example 1:  new item 
+        /** Example 1:  new item       */
         Service service = new Service();
+        service.setRequestId(serviceRequested.getId());
+        service.setStatus("REQUESTED");
         repository().save(service);
 
-        */
+  
 
         /** Example 2:  finding and process
         
