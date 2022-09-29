@@ -68,7 +68,10 @@ public class Service  {
         ServiceApplication.applicationContext.getBean(team.external.PayService.class)
             .pay(pay);
 
+
     }
+
+    
     public void accept(){
 
         setStatus("ACCEPTED");
