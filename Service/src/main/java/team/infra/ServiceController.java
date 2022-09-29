@@ -20,6 +20,24 @@ public class ServiceController {
 
 
 
+    @RequestMapping(value = "services/{id}/product-repair",
+        method = RequestMethod.PUT,
+        produces = "application/json;charset=UTF-8")
+    public Service productRepair(@PathVariable(value = "id") Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+            System.out.println("##### /service/productRepair  called #####");
+            Optional<Service> optionalService = serviceRepository.findById(id);
+            
+            optionalService.orElseThrow(()-> new Exception("No Entity Found"));
+            Service service = optionalService.get();
+            service.productRepair();
+            
+            serviceRepository.save(service);
+            return service;
+            
+    }
+    
+
+
 
     @RequestMapping(value = "services/{id}/accept",
         method = RequestMethod.PUT,
